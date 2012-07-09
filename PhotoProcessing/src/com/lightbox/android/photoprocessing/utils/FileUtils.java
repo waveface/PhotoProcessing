@@ -22,20 +22,21 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/** 
- * FileUtils 
+/**
+ * FileUtils
+ * 
  * @author Nilesh Patel
  */
 public class FileUtils {
 	/** Used to tag logs */
 	@SuppressWarnings("unused")
 	private static final String TAG = "FileUtils";
-	
+
 	public static byte[] readFileToByteArray(File file) throws IOException {
 		InputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream(file);
-			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			ByteArrayOutputStream output = new ByteArrayOutputStream((int) file.length());
 			byte[] buffer = new byte[1024 * 4];
 			int n = 0;
 			while (-1 != (n = inputStream.read(buffer))) {
