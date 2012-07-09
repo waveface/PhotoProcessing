@@ -51,6 +51,15 @@ public class PhotoProcessing {
 		if (bitmap != null) { //USe current bitmap in native memory
 			sendBitmapToNative(bitmap);
 		}
+		
+		filterPhoto(position);
+		
+		Bitmap filteredBitmap = getBitmapFromNative(modifyOriginal ? bitmap : null);
+		nativeDeleteBitmap();
+		return filteredBitmap;
+	}
+	
+	public static void filterPhoto(int position) {
 		switch (position) {
 		case 0: // Original
 			break;
@@ -88,9 +97,6 @@ public class PhotoProcessing {
 			nativeApplyHDR();
 			break;
 		}
-		Bitmap filteredBitmap = getBitmapFromNative(modifyOriginal ? bitmap : null);
-		nativeDeleteBitmap();
-		return filteredBitmap;
 	}
 	
 	public static Bitmap applyEditAction(Bitmap bitmap, int position) {
@@ -155,7 +161,7 @@ public class PhotoProcessing {
 		}
 	}
 	
-	private static Bitmap getBitmapFromNative(Bitmap bitmap) {
+	public static Bitmap getBitmapFromNative(Bitmap bitmap) {
 		int width = nativeGetBitmapWidth();
 		int height = nativeGetBitmapHeight();
 		
