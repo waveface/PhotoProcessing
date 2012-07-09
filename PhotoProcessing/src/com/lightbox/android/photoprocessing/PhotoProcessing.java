@@ -44,6 +44,10 @@ public class PhotoProcessing {
 	public static final int[] EDIT_ACTIONS = {R.string.edit_action_flip, R.string.edit_action_rotate_90_right, R.string.edit_action_rotate_90_left, R.string.edit_action_rotate_180};
 	
 	public static Bitmap filterPhoto(Bitmap bitmap, int position) {
+		return filterPhoto(bitmap, position, true);
+	}
+	
+	public static Bitmap filterPhoto(Bitmap bitmap, int position, final boolean modifyOriginal) {
 		if (bitmap != null) { //USe current bitmap in native memory
 			sendBitmapToNative(bitmap);
 		}
@@ -84,7 +88,7 @@ public class PhotoProcessing {
 			nativeApplyHDR();
 			break;
 		}
-		Bitmap filteredBitmap = getBitmapFromNative(bitmap);
+		Bitmap filteredBitmap = getBitmapFromNative(modifyOriginal ? bitmap : null);
 		nativeDeleteBitmap();
 		return filteredBitmap;
 	}
@@ -176,6 +180,21 @@ public class PhotoProcessing {
 	public static Bitmap makeBitmapMutable(Bitmap bitmap) {
 		sendBitmapToNative(bitmap);
 		return getBitmapFromNative(bitmap);
+	}
+	
+	public static Bitmap resize(Bitmap bitmap, int newWidth, int newHeight) {
+		nativeInitBitmap(bitmap.getWidth(), bitmap.getHeight());
+		sendBitmapToNative(bitmap);
+		
+		nativeResizeBitmap(newWidth, newHeight);
+		
+		Config config = bitmap.getConfig();
+		bitmap.recycle();
+		bitmap = Bitmap.createBitmap(newWidth, newHeight, config);
+		bitmap = getBitmapFromNative(bitmap);
+		nativeDeleteBitmap();
+		
+		return bitmap;
 	}
 	
 	public static Bitmap rotate(Bitmap bitmap, int angle) {
