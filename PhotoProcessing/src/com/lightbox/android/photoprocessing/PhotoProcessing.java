@@ -25,7 +25,6 @@ import android.graphics.Bitmap.Config;
  */
 public class PhotoProcessing {
 	/** Used to tag logs */
-	@SuppressWarnings("unused")
 	private static final String TAG = "PhotoProcessing";
 	
 	public static final int[] FILTERS = {R.string.filter_original,
@@ -147,10 +146,10 @@ public class PhotoProcessing {
 	public static native void nativeApplySahara();
 	public static native void nativeApplyHDR();
 	
-	public static native void nativeLoadResizedJpegBitmap(byte[] jpegData, int size, int maxPixels);
+	public static native int nativeLoadResizedJpegBitmap(byte[] jpegData, int size, int maxPixels);
 	public static native void nativeResizeBitmap(int newWidth, int newHeight);
 	
-	private static void sendBitmapToNative(Bitmap bitmap) {
+	public static void sendBitmapToNative(Bitmap bitmap) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		nativeInitBitmap(width, height);
