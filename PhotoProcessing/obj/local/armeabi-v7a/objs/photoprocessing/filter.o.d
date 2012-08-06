@@ -1,5 +1,9 @@
-obj/local/armeabi-v7a/objs/photoprocessing/filter.o: jni/filter.c \
- jni/bitmap.h jni/transform.h jni/mem_utils.h jni/colour_space.h \
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/obj/local/armeabi-v7a/objs/photoprocessing/filter.o: \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/filter.c \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bitmap.h \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/transform.h \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/colour_space.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/math.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -29,13 +33,13 @@ obj/local/armeabi-v7a/objs/photoprocessing/filter.o: jni/filter.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/strings.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/memory.h
 
-jni/bitmap.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bitmap.h:
 
-jni/transform.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/transform.h:
 
-jni/mem_utils.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h:
 
-jni/colour_space.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/colour_space.h:
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/math.h:
 

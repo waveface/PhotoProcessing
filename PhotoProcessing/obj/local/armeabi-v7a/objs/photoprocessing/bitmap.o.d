@@ -1,4 +1,5 @@
-obj/local/armeabi-v7a/objs/photoprocessing/bitmap.o: jni/bitmap.c \
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/obj/local/armeabi-v7a/objs/photoprocessing/bitmap.o: \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bitmap.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/jni.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/math.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs.h \
@@ -29,7 +30,9 @@ obj/local/armeabi-v7a/objs/photoprocessing/bitmap.o: jni/bitmap.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/alloca.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/strings.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/memory.h \
- jni/mem_utils.h jni/bitmap.h jni/transform.h
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bitmap.h \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/transform.h
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/jni.h:
 
@@ -91,8 +94,8 @@ obj/local/armeabi-v7a/objs/photoprocessing/bitmap.o: jni/bitmap.c \
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/memory.h:
 
-jni/mem_utils.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h:
 
-jni/bitmap.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bitmap.h:
 
-jni/transform.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/transform.h:

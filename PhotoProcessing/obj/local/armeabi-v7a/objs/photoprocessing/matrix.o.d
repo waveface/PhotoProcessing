@@ -1,4 +1,5 @@
-obj/local/armeabi-v7a/objs/photoprocessing/matrix.o: jni/matrix.c \
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/obj/local/armeabi-v7a/objs/photoprocessing/matrix.o: \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/matrix.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/math.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -20,7 +21,8 @@ obj/local/armeabi-v7a/objs/photoprocessing/matrix.o: jni/matrix.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/machine/internal_types.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/machine/limits.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/syslimits.h \
- jni/bitmap.h jni/transform.h
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bitmap.h \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/transform.h
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/math.h:
 
@@ -64,6 +66,6 @@ obj/local/armeabi-v7a/objs/photoprocessing/matrix.o: jni/matrix.c \
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/syslimits.h:
 
-jni/bitmap.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bitmap.h:
 
-jni/transform.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/transform.h:

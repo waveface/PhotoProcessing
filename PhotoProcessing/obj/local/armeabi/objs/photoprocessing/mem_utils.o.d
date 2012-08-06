@@ -1,4 +1,5 @@
-obj/local/armeabi/objs/photoprocessing/mem_utils.o: jni/mem_utils.c \
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/obj/local/armeabi/objs/photoprocessing/mem_utils.o: \
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/stdlib.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -19,7 +20,7 @@ obj/local/armeabi/objs/photoprocessing/mem_utils.o: jni/mem_utils.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/machine/kernel.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/sysmacros.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/memory.h \
- jni/mem_utils.h
+ /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/stdlib.h:
 
@@ -61,4 +62,4 @@ obj/local/armeabi/objs/photoprocessing/mem_utils.o: jni/mem_utils.c \
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/memory.h:
 
-jni/mem_utils.h:
+/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h:

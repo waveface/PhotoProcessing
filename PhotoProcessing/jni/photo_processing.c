@@ -73,6 +73,17 @@ void Java_com_lightbox_android_photoprocessing_PhotoProcessing_nativeRotate180(J
 	rotate180(&bitmap, 1, 1, 1);
 }
 
+int Java_com_lightbox_android_photoprocessing_PhotoProcessing_nativeCrop(JNIEnv* env, jobject thiz, jfloat left, jfloat top, jfloat right, jfloat bottom) {
+    int resultCode = crop(&bitmap, &left, &top, &right, &bottom, 1, 1, 1);
+    if (resultCode != MEMORY_OK) {
+        return resultCode;
+    }
+    
+	//All the component dimensions should have changed, so copy the correct dimensions
+	bitmap.width = bitmap.redWidth;
+	bitmap.height = bitmap.redHeight;
+}
+
 void Java_com_lightbox_android_photoprocessing_PhotoProcessing_nativeApplyInstafix(JNIEnv* env, jobject thiz) {
 	applyInstafix(&bitmap);
 }
