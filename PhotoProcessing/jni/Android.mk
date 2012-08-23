@@ -9,6 +9,5 @@ LOCAL_CFLAGS := -DANDROID_NDK \
                 
 LOCAL_SRC_FILES := nanojpeg.c mem_utils.c bitmap.c bicubic_resize.c filter.c transform.c colour_space.c matrix.c blur.c photo_processing.c
 LOCAL_LDLIBS    := -lm -llog
-LOCAL_CFLAGS	:= -DFPM_ARM -ffast-math -O2
 
 include $(BUILD_SHARED_LIBRARY)
