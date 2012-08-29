@@ -1,6 +1,5 @@
-/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/obj/local/armeabi/objs/photoprocessing/colour_space.o: \
- /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/colour_space.c \
- /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/colour_space.h \
+obj/local/armeabi/objs/photoprocessing/colour_space.o: jni/colour_space.c \
+ jni/colour_space.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/math.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -24,7 +23,7 @@
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/syslimits.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/android/log.h
 
-/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/colour_space.h:
+jni/colour_space.h:
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/math.h:
 

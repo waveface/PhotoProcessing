@@ -1,5 +1,5 @@
-/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/obj/local/armeabi/objs/photoprocessing/bicubic_resize.o: \
- /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/bicubic_resize.c \
+obj/local/armeabi/objs/photoprocessing/bicubic_resize.o: \
+ jni/bicubic_resize.c \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/stdlib.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/cdefs_elf.h \
@@ -20,7 +20,7 @@
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/machine/kernel.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/sys/sysmacros.h \
  /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/memory.h \
- /Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h
+ jni/mem_utils.h
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/stdlib.h:
 
@@ -62,4 +62,4 @@
 
 /Users/chris/Apps/android-ndk-r7/platforms/android-14/arch-arm/usr/include/memory.h:
 
-/Users/chris/Development/LightboxPhotoProcessing/PhotoProcessing/jni/mem_utils.h:
+jni/mem_utils.h:

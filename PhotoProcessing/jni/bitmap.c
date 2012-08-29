@@ -102,27 +102,30 @@ int initBitmapMemory(Bitmap* bitmap, int width, int height) {
 	}
 }
 
-int decodeJpegData(char* jpegData, int jpegSize, int maxPixels, Bitmap* bitmap) {
+int decodeResizeImage(char const *filename, int maxPixels, Bitmap* bitmap) {
+    //LOGI("decodeResizeImage. START");
 	int returnCode;
 
 	int maxWidth;
 	int maxHeight;
-
-	// Decode red channel
-	returnCode = decodeJpegChannel(jpegData, jpegSize, 0, &(*bitmap).red, &(*bitmap).redWidth, &(*bitmap).redHeight);
+    
+    // Decode Image
+    returnCode = decodeImage(filename, bitmap);
+    
 	if (returnCode != MEMORY_OK) {
-		LOGE("Failed to decode red channel");
-		njDone();
+		LOGE("Failed to decode image");
 		freeUnsignedCharArray(&(*bitmap).red);
+		freeUnsignedCharArray(&(*bitmap).green);
+		freeUnsignedCharArray(&(*bitmap).blue);
 		return returnCode;
 	}
-
+    //LOGI("decodeResizeImage. IMAGE DECODED");
+   
 	doTransforms(bitmap, 1, 0, 0);
 	// Resize red channel
 	getScaledSize((*bitmap).redWidth, (*bitmap).redHeight, maxPixels, &maxWidth, &maxHeight); //We only need to do this once as r, g, b should be the same sizes
 	returnCode = resizeChannel(&(*bitmap).red, (*bitmap).redWidth, (*bitmap).redHeight, maxWidth, maxHeight);
 	if (returnCode != MEMORY_OK) {
-		njDone();
 		freeUnsignedCharArray(&(*bitmap).red);
 		return returnCode;
 	}
@@ -131,22 +134,15 @@ int decodeJpegData(char* jpegData, int jpegSize, int maxPixels, Bitmap* bitmap) 
 		(*bitmap).redWidth = maxWidth;
 		(*bitmap).redHeight = maxHeight;
 	}
-
-	// Decode green channel
-	returnCode = decodeJpegChannel(jpegData, jpegSize, 1, &(*bitmap).green, &(*bitmap).greenWidth, &(*bitmap).greenHeight);
-	if (returnCode != MEMORY_OK) {
-		LOGE("Failed to decode green channel");
-		njDone();
-		freeUnsignedCharArray(&(*bitmap).red);
-		freeUnsignedCharArray(&(*bitmap).green);
-		return returnCode;
-	}
-
+    //LOGI("decodeResizeImage. RED COMPLETE");
+    
+    /**
+     * GREEN CHANNEL
+     */
 	doTransforms(bitmap, 0, 1, 0);
 	// Resize green channel
 	returnCode = resizeChannel(&(*bitmap).green, (*bitmap).greenWidth, (*bitmap).greenHeight, maxWidth, maxHeight);
 	if (returnCode != MEMORY_OK) {
-		njDone();
 		freeUnsignedCharArray(&(*bitmap).red);
 		freeUnsignedCharArray(&(*bitmap).green);
 		return returnCode;
@@ -156,23 +152,16 @@ int decodeJpegData(char* jpegData, int jpegSize, int maxPixels, Bitmap* bitmap) 
 		(*bitmap).greenWidth = maxWidth;
 		(*bitmap).greenHeight = maxHeight;
 	}
-
-	// Decode blue channel
-	returnCode = decodeJpegChannel(jpegData, jpegSize, 2, &(*bitmap).blue, &(*bitmap).blueWidth, &(*bitmap).blueHeight);
-	if (returnCode != MEMORY_OK) {
-		LOGE("Failed to decode blue channel");
-		njDone();
-		freeUnsignedCharArray(&(*bitmap).red);
-		freeUnsignedCharArray(&(*bitmap).green);
-		freeUnsignedCharArray(&(*bitmap).blue);
-		return returnCode;
-	}
-
+    //LOGI("decodeResizeImage. GREEN COMPLETE");
+    
+    
+    /**
+     * BLUE CHANNEL
+     */
 	doTransforms(bitmap, 0, 0, 1);
 	// Resize blue channel
 	returnCode = resizeChannel(&(*bitmap).blue, (*bitmap).blueWidth, (*bitmap).blueHeight, maxWidth, maxHeight);
 	if (returnCode != MEMORY_OK) {
-		njDone();
 		freeUnsignedCharArray(&(*bitmap).red);
 		freeUnsignedCharArray(&(*bitmap).green);
 		freeUnsignedCharArray(&(*bitmap).blue);
@@ -183,6 +172,8 @@ int decodeJpegData(char* jpegData, int jpegSize, int maxPixels, Bitmap* bitmap) 
 		(*bitmap).blueWidth = maxWidth;
 		(*bitmap).blueHeight = maxHeight;
 	}
+    //LOGI("decodeResizeImage. BLUE COMPLETE");
+    
 
 	// Set the final bitmap dimensions
 	if ((*bitmap).redWidth == (*bitmap).greenWidth && (*bitmap).redWidth == (*bitmap).blueWidth
@@ -190,47 +181,70 @@ int decodeJpegData(char* jpegData, int jpegSize, int maxPixels, Bitmap* bitmap) 
 		(*bitmap).width = (*bitmap).redWidth;
 		(*bitmap).height = (*bitmap).redHeight;
 	} else {
-		njDone();
 		freeUnsignedCharArray(&(*bitmap).red);
 		freeUnsignedCharArray(&(*bitmap).green);
 		freeUnsignedCharArray(&(*bitmap).blue);
 		return INCONSISTENT_BITMAP_ERROR;
 	}
-
-	njDoneLeaveRGBData();
+    //LOGI("decodeResizeImage. FINISHED");
 
 	return MEMORY_OK;
 }
 
-int decodeJpegChannel(char* jpegData, int jpegSize, int channel, unsigned char** channelPixels, int* srcWidth, int* srcHeight) {
-	int returnCode;
-	if (channel == 0) { // Decode the red channel
-		njInit();
-		returnCode = njDecode(jpegData, jpegSize, 1, 0, 0);
-	} else if (channel == 1) { // Decode the green channel
-		njInit();
-		returnCode = njDecode(jpegData, jpegSize, 0, 1, 0);
-	} else if (channel == 2) { // Decode the blue channel
-		njInit();
-		returnCode = njDecode(jpegData, jpegSize, 0, 0, 1);
-	}
+int decodeImage(char const *filename, Bitmap* bitmap) {
+    
+    int width, height, comp;
+    
+    unsigned char *data = stbi_load(filename, &width, &height, &comp, 3);
+    //LOGI("stbi_image Loaded Image. %dx%d, Components: %d", width, height, comp);
 
-	if (returnCode != 0) {
-		LOGE("Failed to njDecode()");
-		njDone();
-		return returnCode;
+    // Check for bad decode...
+    if (!data || comp <= 2) {
+        // Free Image
+        stbi_image_free(data);
+        return DECODE_ERROR;
+    }
+    
+    
+    // Create Char Arrays to store pixel data
+    int size = width * height;
+    
+    int resultCode = newUnsignedCharArray(size, &(*bitmap).red);
+	if (resultCode != MEMORY_OK) {
+		return resultCode;
 	}
-
-	*srcWidth = njGetWidth();
-	*srcHeight = njGetHeight();
-
-	if (channel == 0) { // Get the red channel pixels
-		*channelPixels = (unsigned char*)njGetRedImage();
-	} else if (channel == 1) { // Get the green channel pixels
-		*channelPixels = (unsigned char*)njGetGreenImage();
-	} else if (channel == 2) { // Get the blue channel pixels
-		*channelPixels = (unsigned char*)njGetBlueImage();
+	resultCode = newUnsignedCharArray(size, &(*bitmap).green);
+	if (resultCode != MEMORY_OK) {
+		return resultCode;
 	}
+	resultCode = newUnsignedCharArray(size, &(*bitmap).blue);
+	if (resultCode != MEMORY_OK) {
+		return resultCode;
+	}
+    
+    // Split values into R, G, B
+    int x, y;
+    int index = 0;
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			(*bitmap).red[index] = data[index*comp];
+			(*bitmap).green[index] = data[(index*comp)+1];
+			(*bitmap).blue[index] = data[(index*comp)+2];
+			index++;
+		}
+	}
+    
+    // Free Image
+    stbi_image_free(data);
+    
+    (*bitmap).redHeight = height;
+    (*bitmap).redWidth = width;
+    (*bitmap).greenHeight = height;
+    (*bitmap).greenWidth = width;
+    (*bitmap).blueHeight = height;
+    (*bitmap).blueWidth = width;
 
 	return MEMORY_OK;
 }

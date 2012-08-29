@@ -146,7 +146,7 @@ public class PhotoProcessing {
 	public static native void nativeApplySahara();
 	public static native void nativeApplyHDR();
 	
-	public static native int nativeLoadResizedJpegBitmap(byte[] jpegData, int size, int maxPixels);
+	public static native int nativeLoadResizedBitmap(String filePath, int maxPixels);
 	public static native void nativeResizeBitmap(int newWidth, int newHeight);
 	public static native int nativeCrop(float left, float top, float right, float bottom);
 	

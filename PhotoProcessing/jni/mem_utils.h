@@ -24,6 +24,7 @@ static const int DOUBLE_ARRAY_ERROR = 2;
 static const int UCHAR_ARRAY_ERROR = 3;
 static const int FLOAT_ARRAY_ERROR = 4;
 static const int JNI_GET_INT_ARRAY_ERROR = 5;
+static const int DECODE_ERROR = 6;
 
 int newIntArray(unsigned int size, int** arrayPointer);
 int newUnsignedIntArray(unsigned int size, unsigned int** arrayPointer);

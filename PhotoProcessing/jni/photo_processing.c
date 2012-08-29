@@ -128,22 +128,18 @@ void Java_com_lightbox_android_photoprocessing_PhotoProcessing_nativeApplyHDR(JN
 	applyHDR(&bitmap);
 }
 
-int Java_com_lightbox_android_photoprocessing_PhotoProcessing_nativeLoadResizedJpegBitmap(JNIEnv* env, jobject thiz, jbyteArray bytes, jint jpegSize, jint maxPixels) {
-	char* jpegData = (char*) (*env)->GetPrimitiveArrayCritical(env, bytes, NULL);
+int Java_com_lightbox_android_photoprocessing_PhotoProcessing_nativeLoadResizedBitmap(JNIEnv* env, jobject thiz, jstring filePath, jint maxPixels) {
+    
+    const char *nativeFilePath = (*env)->GetStringUTFChars(env, filePath, 0);
 
-	if (jpegData == NULL) {
-		LOGE("jpeg data was null");
-		return JNI_GET_INT_ARRAY_ERROR;
-	}
-
-	int resultCode = decodeJpegData(jpegData, jpegSize, maxPixels, &bitmap);
+	int resultCode = decodeResizeImage(nativeFilePath, maxPixels, &bitmap);
 	if (resultCode != MEMORY_OK) {
 		deleteBitmap(&bitmap);
 		LOGE("error decoding jpeg resultCode=%d", resultCode);
 		return resultCode;
 	}
-
-	(*env)->ReleasePrimitiveArrayCritical(env, bytes, jpegData, 0);
+    
+    (*env)->ReleaseStringUTFChars(env, filePath, nativeFilePath);
 
 	return MEMORY_OK;
 }
