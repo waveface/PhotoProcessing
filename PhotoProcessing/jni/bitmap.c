@@ -25,10 +25,16 @@
 #include <mem_utils.h>
 #include <bitmap.h>
 
+#define  ENABLE_LOG 0
 #define  LOG_TAG    "bitmap.c"
-#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
-#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 
+#if ENABLE_LOG
+    #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+    #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+#else
+    #define  LOGI(...)
+    #define  LOGE(...)
+#endif
 
 inline int rgb(int red, int green, int blue) {
 	return (0xFF << 24) | (red << 16) | (green << 8) | blue;
@@ -103,7 +109,7 @@ int initBitmapMemory(Bitmap* bitmap, int width, int height) {
 }
 
 int decodeResizeImage(char const *filename, int maxPixels, Bitmap* bitmap) {
-    //LOGI("decodeResizeImage. START");
+    LOGI("decodeResizeImage. START");
 	int returnCode;
 
 	int maxWidth;
@@ -119,7 +125,7 @@ int decodeResizeImage(char const *filename, int maxPixels, Bitmap* bitmap) {
 		freeUnsignedCharArray(&(*bitmap).blue);
 		return returnCode;
 	}
-    //LOGI("decodeResizeImage. IMAGE DECODED");
+    LOGI("decodeResizeImage. IMAGE DECODED");
    
 	doTransforms(bitmap, 1, 0, 0);
 	// Resize red channel
@@ -134,7 +140,7 @@ int decodeResizeImage(char const *filename, int maxPixels, Bitmap* bitmap) {
 		(*bitmap).redWidth = maxWidth;
 		(*bitmap).redHeight = maxHeight;
 	}
-    //LOGI("decodeResizeImage. RED COMPLETE");
+    LOGI("decodeResizeImage. RED COMPLETE");
     
     /**
      * GREEN CHANNEL
@@ -152,7 +158,7 @@ int decodeResizeImage(char const *filename, int maxPixels, Bitmap* bitmap) {
 		(*bitmap).greenWidth = maxWidth;
 		(*bitmap).greenHeight = maxHeight;
 	}
-    //LOGI("decodeResizeImage. GREEN COMPLETE");
+    LOGI("decodeResizeImage. GREEN COMPLETE");
     
     
     /**
@@ -172,7 +178,7 @@ int decodeResizeImage(char const *filename, int maxPixels, Bitmap* bitmap) {
 		(*bitmap).blueWidth = maxWidth;
 		(*bitmap).blueHeight = maxHeight;
 	}
-    //LOGI("decodeResizeImage. BLUE COMPLETE");
+    LOGI("decodeResizeImage. BLUE COMPLETE");
     
 
 	// Set the final bitmap dimensions
@@ -186,17 +192,18 @@ int decodeResizeImage(char const *filename, int maxPixels, Bitmap* bitmap) {
 		freeUnsignedCharArray(&(*bitmap).blue);
 		return INCONSISTENT_BITMAP_ERROR;
 	}
-    //LOGI("decodeResizeImage. FINISHED");
+    LOGI("decodeResizeImage. FINISHED");
 
 	return MEMORY_OK;
 }
 
 int decodeImage(char const *filename, Bitmap* bitmap) {
+    // Delete the current bitmap, just in case
+    deleteBitmap(bitmap);
     
     int width, height, comp;
-    
-    unsigned char *data = stbi_load(filename, &width, &height, &comp, 3);
-    //LOGI("stbi_image Loaded Image. %dx%d, Components: %d", width, height, comp);
+    unsigned char *data = stbi_load(filename, &width, &height, &comp, 0);
+    LOGI("stbi_image Loaded Image. %dx%d, Components: %d. Size: %d", width, height, comp, sizeof(data));
 
     // Check for bad decode...
     if (!data || comp <= 2) {
@@ -205,19 +212,22 @@ int decodeImage(char const *filename, Bitmap* bitmap) {
         return DECODE_ERROR;
     }
     
-    
-    // Create Char Arrays to store pixel data
     int size = width * height;
     
-    int resultCode = newUnsignedCharArray(size, &(*bitmap).red);
+    // Create Char Arrays to store pixel data
+    unsigned char* red;
+    unsigned char* green;
+    unsigned char* blue;
+    
+    int resultCode = newUnsignedCharArray(size, &red);
 	if (resultCode != MEMORY_OK) {
 		return resultCode;
 	}
-	resultCode = newUnsignedCharArray(size, &(*bitmap).green);
+	resultCode = newUnsignedCharArray(size, &green);
 	if (resultCode != MEMORY_OK) {
 		return resultCode;
 	}
-	resultCode = newUnsignedCharArray(size, &(*bitmap).blue);
+	resultCode = newUnsignedCharArray(size, &blue);
 	if (resultCode != MEMORY_OK) {
 		return resultCode;
 	}
@@ -229,9 +239,9 @@ int decodeImage(char const *filename, Bitmap* bitmap) {
 	{
 		for (x = 0; x < width; x++)
 		{
-			(*bitmap).red[index] = data[index*comp];
-			(*bitmap).green[index] = data[(index*comp)+1];
-			(*bitmap).blue[index] = data[(index*comp)+2];
+			red[index] = data[index*comp];
+			green[index] = data[(index*comp)+1];
+			blue[index] = data[(index*comp)+2];
 			index++;
 		}
 	}
@@ -239,6 +249,9 @@ int decodeImage(char const *filename, Bitmap* bitmap) {
     // Free Image
     stbi_image_free(data);
     
+    (*bitmap).red = red;
+    (*bitmap).green = green;
+    (*bitmap).blue = blue;
     (*bitmap).redHeight = height;
     (*bitmap).redWidth = width;
     (*bitmap).greenHeight = height;
